@@ -1,5 +1,7 @@
 version: 2.1
-           
+orbs:
+  slack: circleci/slack@4.1
+
 jobs:
   build-frontend:
     docker:
@@ -73,6 +75,9 @@ jobs:
             cd frontend
             npm install
             npm audit --audit-level=critical   
+      - slack/notify:
+          event: fail
+          template: basic_fail_1      
   scan-backend:
     docker:
       - image: circleci/node:13.8.0
@@ -85,7 +90,10 @@ jobs:
           command: |
             cd backend
             npm install
-            npm audit --audit-level=critical              
+            npm audit --audit-level=critical      
+      - slack/notify:
+          event: fail
+          template: basic_fail_1              
 workflows:
   default:
     jobs:
