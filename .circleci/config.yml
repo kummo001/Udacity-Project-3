@@ -149,7 +149,6 @@ jobs:
             - project/.circleci/ansible/inventory.txt
       - destroy-environments:
           workflowId: "${CIRCLE_WORKFLOW_ID:0:7}"
-          when: on_fail
       - slack/notify:
           event: fail
           template: basic_fail_1                      
