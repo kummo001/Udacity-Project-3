@@ -151,7 +151,31 @@ jobs:
           workflowId: "${CIRCLE_WORKFLOW_ID:0:7}"
       - slack/notify:
           event: fail
-          template: basic_fail_1                      
+          template: basic_fail_1    
+  configure-infrastructure:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["9b:ce:af:3f:4f:71:b9:d1:16:c8:8e:88:54:97:94:03"]
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update ansible
+            apk --no-cache add curl
+      - run:
+          name: Configure server
+          command: |
+            cd .circleci/ansible
+            ansible-playbook -i inventory.txt configure-server.yml
+      - slack/notify:
+          event: fail
+          template: basic_fail_1      
+      - destroy-environments:
+          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"                          
 workflows:
   default:
     jobs:
