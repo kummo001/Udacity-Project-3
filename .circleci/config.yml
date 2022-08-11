@@ -175,7 +175,7 @@ jobs:
           event: fail
           template: basic_fail_1      
       - destroy-environments:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"                          
+          workflowId: "${CIRCLE_WORKFLOW_ID:0:7}"                          
 workflows:
   default:
     jobs:
