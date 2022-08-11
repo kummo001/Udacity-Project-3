@@ -125,7 +125,7 @@ jobs:
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
               --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" 
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \
               --tags project=udapeople \ 
       - run:
           name: Ensure front-end infrastructure exist
@@ -133,7 +133,7 @@ jobs:
             aws cloudformation deploy \
               --template-file .circleci/files/frontend.yml \
               --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \
               --tags project=udapeople \  
       - run:
           name: Add back-end ip to ansible inventory
@@ -149,6 +149,7 @@ jobs:
             - project/.circleci/ansible/inventory.txt
       - destroy-environments:
           workflowId: "${CIRCLE_WORKFLOW_ID:0:7}"
+          when: on_fail
       - slack/notify:
           event: fail
           template: basic_fail_1                      
