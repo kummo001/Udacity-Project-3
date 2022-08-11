@@ -169,9 +169,9 @@ jobs:
       - run:
           name: Configure server a
           command: |
+            cd .circleci/ansible
             echo $(pwd)
             echo $(cat inventory.txt)
-            cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
       - slack/notify:
           event: fail
