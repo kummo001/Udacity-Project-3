@@ -3,7 +3,7 @@ orbs:
   slack: circleci/slack@4.1
 
 commands:
-  destroy-environment:
+  destroy-environments:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
       workflowId:
