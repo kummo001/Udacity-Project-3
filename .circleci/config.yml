@@ -115,7 +115,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["9b:ce:af:3f:4f:71:b9:d1:16:c8:8e:88:54:97:94:03"]
+          fingerprints: ["51:ee:f1:bc:33:53:91:38:b5:15:f4:7d:1d:2b:8e:4d"]
       - run:
           name: Install essential dependencies
           command: yum install -y tar gzip
@@ -158,7 +158,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["9b:ce:af:3f:4f:71:b9:d1:16:c8:8e:88:54:97:94:03"]
+          fingerprints: ["51:ee:f1:bc:33:53:91:38:b5:15:f4:7d:1d:2b:8e:4d"]
       - attach_workspace:
           at: ~/
       - run:
