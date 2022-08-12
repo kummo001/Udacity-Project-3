@@ -185,7 +185,7 @@ jobs:
             apk add --update ansible
             apk --no-cache add curl
       - run:
-          name: Configure server a
+          name: Configure server 
           command: |
             cd .circleci/ansible
             cat inventory
