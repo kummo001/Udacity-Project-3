@@ -155,16 +155,16 @@ jobs:
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            echo -e "[web]\n" > ./.circleci/ansible/inventory.txt
+            echo -e "[web]\n" > ./.circleci/ansible/inventory
             aws ec2 describe-instances \
             --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --output text >> ./.circleci/ansible/inventory
-            cat ./.circleci/ansible/inventory.txt
+            cat ./.circleci/ansible/inventory
       - persist_to_workspace:
           root: ~/
           paths:
-            - project/.circleci/ansible/inventory.txt
+            - project/.circleci/ansible/inventory
       - destroy-environments:
           workflowId: "${CIRCLE_WORKFLOW_ID:0:7}"
       - slack/notify:
@@ -188,8 +188,8 @@ jobs:
           name: Configure server a
           command: |
             cd .circleci/ansible
-            cat inventory.txt
-            ansible-playbook -i inventory.txt configure-server.yml
+            cat inventory
+            ansible-playbook -i inventory configure-server.yml
       - slack/notify:
           event: fail
           template: basic_fail_1      
