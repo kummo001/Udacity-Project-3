@@ -20,7 +20,7 @@
   command: pm2 start npm -- start
   args:
     chdir: ~/backend-app
-environment:
+  environment:
      ENVIRONMENT: production
      TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION') }}"
      TYPEORM_MIGRATIONS_DIR: "./migrations"
