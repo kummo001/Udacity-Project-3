@@ -18,7 +18,6 @@
     autoremove: yes
 
 - name: "install npm"
-  become: true
   apt:
     name: ["nodejs", "npm"]
     state: latest
