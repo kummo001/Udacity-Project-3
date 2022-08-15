@@ -392,6 +392,11 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install dependencies
+          command: |
+            apk add --update curl
+            pip install awscli
+      - run:
           name: Remove old stacks and files
           command: |
             OLD_WORKFLOW_ID=$(curl --insecure https://kvdb.io/Aufc8VBYi2Y1CSUoXsBGh5/old_workflow_id)
