@@ -341,7 +341,7 @@ jobs:
             echo ${URL}
             if curl --insecure -s ${URL} | grep "Welcome"
             then
-              return 1
+              return 0
             else
               return 1
             fi  
@@ -353,6 +353,38 @@ jobs:
           workflowId: "${CIRCLE_WORKFLOW_ID:0:7}"  
       - revert-migrations:
           workflowId: "${CIRCLE_WORKFLOW_ID:0:7}"
+  cloudfront-update:
+    docker:
+      - image: python:3.9-alpine3.16
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update curl
+            pip install awscli
+      - run:
+          name: Update cloudfront distribution
+          command: |
+            export OldWorkflowID=$(aws cloudformation \
+            list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+            --no-paginate --output text)
+            echo $OldWorkflowID >> ~/OldWorkFlowID.txt
+            cat ~/OldWorkFlowID.txt
+            
+            aws cloudformation deploy \
+            --template-file .circleci/files/cloudfront.yml \
+            --stack-name InitialStack \
+            --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
+            --tags project=udapeople
+      # Here's where you will add some code to rollback on failure   
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - destroy-environments:
+          workflowId: "${CIRCLE_WORKFLOW_ID:0:7}"  
+      - revert-migrations:
+          workflowId: "${CIRCLE_WORKFLOW_ID:0:7}"       
 
 workflows:
   default:
