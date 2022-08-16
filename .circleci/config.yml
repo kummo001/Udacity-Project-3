@@ -412,7 +412,7 @@ jobs:
               aws cloudformation delete-stack --stack-name "udapeople-backend-${OLD_WORKFLOW_ID}"
               aws cloudformation delete-stack --stack-name "udapeople-frontend-${OLD_WORKFLOW_ID}" 
             else
-               echo "---------------------------Cannot Cleanup-----------------------------------"
+               echo "--------------------------Don't need Cleanup--------------------------------"
             fi
       - slack/notify:
           event: pass
@@ -447,5 +447,5 @@ workflows:
           requires: [deploy-backend, deploy-frontend]
       - cloudfront-update:
           requires: [smoke-test]
-      # - cleanup:
-      #     requires: [cloudfront-update]
+      - cleanup:
+          requires: [cloudfront-update]
