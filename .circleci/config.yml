@@ -398,7 +398,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update curl
+            apk add --update curl jq 
             pip install awscli
       - run:
           name: Remove old stacks and files
@@ -419,11 +419,7 @@ jobs:
           template: success_tagged_deploy_1
       - slack/notify:
           event: fail
-          template: basic_fail_1
-      - destroy-environments:
-          workflowId: "${CIRCLE_WORKFLOW_ID:0:7}"
-      - revert-migrations:
-          workflowId: "${CIRCLE_WORKFLOW_ID:0:7}"
+          template: basic_fail_1   
 workflows:
   default:
     jobs:
@@ -451,5 +447,5 @@ workflows:
           requires: [deploy-backend, deploy-frontend]
       - cloudfront-update:
           requires: [smoke-test]
-      - cleanup:
-          requires: [cloudfront-update]
+      # - cleanup:
+      #     requires: [cloudfront-update]
