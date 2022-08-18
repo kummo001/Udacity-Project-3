@@ -1,2 +1,2 @@
 URL1:https://github.com/kummo001/Udacity-Project-3
-URL2:http://udapeople-21ec0ba.s3-website-us-east-1.amazonaws.com/
+URL2:http://udapeople-3fb1972.s3-website-us-east-1.amazonaws.com
